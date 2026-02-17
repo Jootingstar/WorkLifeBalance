@@ -8,14 +8,13 @@ import tempfile
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from business_logic import load_teamSheet
 
-st.set_page_config(page_title="멤버별 조회", page_icon="🔍", layout="wide")
+st.set_page_config(page_title="직원별 조회", page_icon="🔍", layout="wide")
 
-st.title("🔍 멤버별 일정 조회")
+st.title("🔍 직원별 연차 사용 내역 조회")
 st.markdown("---")
 
-st.header("📂 전체 일정 시트 파일")
-st.caption("ℹ️ PC의 어느 폴더에서든 파일을 선택할 수 있습니다")
-target_file = st.file_uploader("전체 일정 시트 파일을 선택하세요", type=['xlsx'], key="member_query_file")
+st.header("📂 마스터 연차 시트 파일")
+target_file = st.file_uploader("마스터 연차 시트 파일을 선택하세요", type=['xlsx'], key="member_query_file")
 
 if target_file:
     st.markdown("---")
@@ -43,7 +42,7 @@ if target_file:
             if not has_data or df_team.empty:
                 st.warning("⚠️ 선택한 시트에 데이터가 없습니다.")
             else:
-                # 멤버별 총 일수 계산
+                # 직원별 총 일수 계산
                 member_summary = df_team.groupby('name')['days'].agg([
                     ('총_일수', 'sum'),
                     ('일정_간수', 'count')
@@ -51,12 +50,12 @@ if target_file:
                 
                 member_summary = member_summary.sort_values('총_일수', ascending=False)
                 
-                st.subheader(f"📊 멤버별 총 사용일수 (총 {len(member_summary)}명)")
+                st.subheader(f"📊 직원별 총 사용일수 (총 {len(member_summary)}명)")
                 
                 # 순위 통계
                 col1, col2, col3 = st.columns(3)
                 with col1:
-                    st.metric("총 멤버 수", f"{len(member_summary)}명")
+                    st.metric("총 직원 수", f"{len(member_summary)}명")
                 with col2:
                     st.metric("전체 일정 간수", f"{member_summary['일정_간수'].sum()}건")
                 with col3:
@@ -64,15 +63,15 @@ if target_file:
                 
                 st.markdown("---")
                 
-                # 멤버별 통계 테이블
+                # 직원별 통계 테이블
                 st.dataframe(member_summary, use_container_width=True)
                 
                 st.markdown("---")
                 
-                # 특정 멤버 상세 조회
-                st.subheader("🔍 멤버 상세 조회")
+                # 특정 직원 상세 조회
+                st.subheader("🔍 직원 상세 조회")
                 member_names = sorted(df_team['name'].unique())
-                selected_member = st.selectbox("멤버를 선택하세요:", member_names)
+                selected_member = st.selectbox("직원을 선택하세요:", member_names)
                 
                 if selected_member:
                     member_data = df_team[df_team['name'] == selected_member].copy()
@@ -97,4 +96,3 @@ else:
     st.info("ℹ️ Excel 파일을 선택해주세요.")
 
 st.markdown("---")
-st.caption("ℹ️ 서버별: 1) 진행 일정 시트 파일 선택 → 2) 조회할 시트 선택 → 3) 멤버별 통계 확인")
