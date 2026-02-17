@@ -43,6 +43,7 @@ with col2:
 
 st.markdown("---")
 
+st.caption("ℹ️ GitHub https://github.com/Jootingstar/WorkLifeBalance")
 
 # 자동으로 업데이트 페이지로 리다이렉트
 # st.switch_page("pages/1_update.py")
