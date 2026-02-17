@@ -1,14 +1,14 @@
 import streamlit as st
 
 st.set_page_config(
-    page_title="WIP 재현이네 연차 관리 매니저",
+    page_title="재현이네 연차 관리 매니저",
     page_icon="📅",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
 # 메인 페이지
-st.title("📅 재현이네 연차 관리 매니저")
+st.title("📅 (WIP) 재현이네 연차 관리 매니저")
 st.markdown("---")
 
 st.header("미구현 부분")
