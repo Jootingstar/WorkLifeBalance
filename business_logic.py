@@ -131,7 +131,7 @@ def save_to_excel(target_path, df_updated, sheet_name):
 
 
 def create_yearly_summary(target_path):
-    """2번째 시트부터 마지막 시트까지를 읽어와 '폴상사' 시트에 작성합니다."""
+    """2번째 시트부터 마지막 시트까지를 읽어와 '재현이네' 시트에 작성합니다."""
     wb = openpyxl.load_workbook(target_path)
     sheet_names = wb.sheetnames
     
@@ -209,15 +209,15 @@ def create_yearly_summary(target_path):
     # sheet_name, name, 그리고 1년차부터 2여석치까지 순서대로 컬럼 정렬
     pivot_df = pivot_df[['sheet_name', 'name'] + YEAR_COLUMNS]
     
-    # '폴상사' 시트에 쓰기
-    if '폴상사' in wb.sheetnames:
-        del wb['폴상사']
+    # '재현이네' 시트에 쓰기
+    if '재현이네' in wb.sheetnames:
+        del wb['재현이네']
     
-    ws = wb.create_sheet('폴상사', 0)  # 첫 번째 위치에 생성
+    ws = wb.create_sheet('재현이네', 0)  # 첫 번째 위치에 생성
     
-    # 1행: A~여치 병합하고 "폴상사" 제목, I열부터 1년차~20년차 헤더
+    # 1행: A~여치 병합하고 "재현이네" 제목, I열부터 1년차~20년차 헤더
     ws.merge_cells('A1:H1')
-    ws['A1'] = '폴상사'
+    ws['A1'] = '재현이네'
     ws['A1'].alignment = CENTER_ALIGN
     for col_idx, year_label in enumerate(YEAR_COLUMNS, start=9):
         cell = ws.cell(row=1, column=col_idx, value=year_label)

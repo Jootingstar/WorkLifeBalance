@@ -4,9 +4,9 @@ import os
 import sys
 import tempfile
 
-st.set_page_config(page_title="일정 업데이트", page_icon="📝", layout="wide")
+st.set_page_config(page_title="재현이네 연차 업데이트", page_icon="📅", layout="wide")
 
-st.title("📝 일정 관리 시스템")
+st.title("📅 재현이네 연차 업데이트")
 st.markdown("---")
 
 # 상위 디렉토리의 business_logic 모듈 import
@@ -23,12 +23,12 @@ from business_logic import (
 col1, col2 = st.columns(2)
 
 with col1:
-    st.header("1️⃣ 진행 일정 시트 파일")
-    target_file = st.file_uploader("진행 일정 시트 파일을 선택하세요 (마스터 파일)", type=['xlsx'], key="target")
+    st.header("1️⃣ 마스터 연차 시트 파일")
+    target_file = st.file_uploader("마스터 연차 시트 파일을 선택하세요", type=['xlsx'], key="target")
 
 with col2:
-    st.header("2️⃣ 추가 일정 시트 파일")
-    source_file = st.file_uploader("추가 일정 시트 파일을 선택하세요 (신규 데이터)", type=['xlsx'], key="source")
+    st.header("2️⃣ 팀별 연차 사용 시트 파일")
+    source_file = st.file_uploader("병합 할 팀별 연차 사용 시트 파일을 선택하세요", type=['xlsx'], key="source")
 
 if target_file and source_file:
     st.markdown("---")
@@ -69,7 +69,7 @@ if target_file and source_file:
         df_team, has_data = load_teamSheet(target_path, sheet_name)
         
         if not has_data:
-            st.info("ℹ️ Team 시트가 비어있습니다. 새로 생성합니다.")
+            st.info("ℹ️ 팀 시트가 비어있습니다. 새로 생성합니다.")
         
         # 3. 중복 체크
         new_data = find_new_data(source_data, df_team)
@@ -96,12 +96,12 @@ if target_file and source_file:
         st.markdown("---")
         
         # 5. 업데이트 버튼
-        if st.button("✅ Team 시트 업데이트 및 다운로드", type="primary", use_container_width=True):
+        if st.button("✅ 팀 시트 업데이트 및 다운로드", type="primary", use_container_width=True):
             try:
                 save_to_excel(target_path, df_team_updated, sheet_name)
                 
                 # 연도별 집계 생성
-                with st.spinner("'폴상사' 시트를 업데이트 중..."):
+                with st.spinner("'재현이네' 시트를 업데이트 중..."):
                     create_yearly_summary(target_path)
                     st.success("✅ 업데이트 완료!")
                 
@@ -131,4 +131,4 @@ else:
     st.info("ℹ️ 두 개의 Excel 파일을 선택해주세요.")
 
 st.markdown("---")
-st.caption("ℹ️ 서버별: 1) 진행 일정 시트 파일 선택 → 2) 추가 일정 시트 파일 선택 → 3) 멤버별 통계 확인")
+st.caption("ℹ️ Testing version - 2026.02.13")
